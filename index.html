@@ -1,1 +1,245 @@
-<!DOCTYPE html><html><head><title>Kite</title></head><body>test</body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kite Treatment Center Assistant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:#f0f2f5;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;font-family:'Nunito Sans',sans-serif;}
+    :root{--navy:#011e60;--royal:#1847de;--kite-blue:#265DB2;--user:#4A90D9;--border:#dde5f0;--text:#1a2740;--muted:#5a6a82;--light:#f4f7fb;}
+ 
+    /* LOGIN */
+    .login-wrap{background:white;width:100%;max-width:420px;border:1px solid var(--border);border-radius:4px;box-shadow:0 4px 32px rgba(1,30,96,0.13);overflow:hidden;}
+    .login-hdr{background:var(--navy);padding:28px 32px 24px;text-align:center;}
+    .login-hdr svg{height:42px;width:auto;margin:0 auto 14px;display:block;}
+    .login-hdr-title{color:rgba(255,255,255,0.85);font-size:13px;font-weight:600;letter-spacing:0.02em;}
+    .login-grad{height:3px;background:linear-gradient(90deg,#d63180 0%,#9b26b6 70%,#fce300 100%);}
+    .login-body{padding:32px;}
+    .login-body h2{font-size:17px;font-weight:800;color:var(--text);margin-bottom:6px;}
+    .login-body p{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.5;}
+    .login-field{margin-bottom:16px;}
+    .login-field label{display:block;font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+    .login-field input{width:100%;height:42px;padding:0 14px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'Nunito Sans',sans-serif;outline:none;color:var(--text);}
+    .login-field input:focus{border-color:var(--kite-blue);}
+    .login-btn{width:100%;height:44px;margin-top:8px;background:var(--kite-blue);border:none;border-radius:8px;color:white;font-size:13px;font-weight:800;font-family:'Nunito Sans',sans-serif;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:background 0.15s;}
+    .login-btn:hover{background:var(--navy);}
+    .login-error{display:none;background:#fef0f0;border:1px solid #fcc;border-radius:8px;padding:10px 14px;margin-top:12px;font-size:12.5px;color:#c0392b;font-weight:600;}
+    .login-footer{padding:14px 32px;border-top:1px solid var(--border);font-size:10.5px;color:var(--muted);text-align:center;line-height:1.5;}
+    .login-footer a{color:var(--kite-blue);}
+ 
+    /* CHATBOT */
+    .wrap{display:none;background:white;flex-direction:column;height:680px;width:100%;max-width:800px;overflow:hidden;border:1px solid var(--border);box-shadow:0 4px 32px rgba(1,30,96,0.13);border-radius:4px;}
+    .wrap.visible{display:flex;}
+    .hdr{background:var(--navy);display:flex;align-items:center;gap:14px;padding:0 22px;height:64px;flex-shrink:0;}
+    .hdr-logo{height:38px;width:auto;flex-shrink:0;}
+    .hdr-div{width:1px;height:28px;background:rgba(255,255,255,0.2);margin:0 4px;}
+    .hdr-title{color:white;font-size:13px;font-weight:700;flex:1;}
+    .hdr-signout{font-size:11px;font-weight:700;color:rgba(255,255,255,0.6);background:none;border:1px solid rgba(255,255,255,0.2);border-radius:6px;padding:5px 12px;cursor:pointer;font-family:'Nunito Sans',sans-serif;transition:all 0.15s;}
+    .hdr-signout:hover{color:white;border-color:rgba(255,255,255,0.5);}
+    .grad{height:3px;background:linear-gradient(90deg,#d63180 0%,#9b26b6 70%,#fce300 100%);flex-shrink:0;}
+    .secbar{background:var(--royal);padding:7px 22px;font-size:10.5px;color:white;font-weight:800;letter-spacing:0.09em;text-transform:uppercase;flex-shrink:0;}
+    .msgs{flex:1;overflow-y:auto;padding:20px 22px;display:flex;flex-direction:column;gap:16px;background:white;}
+    .row{display:flex;gap:10px;align-items:flex-end;}
+    .row.u{flex-direction:row-reverse;}
+    .avb{width:34px;height:34px;flex-shrink:0;border-radius:50%;background:#265DB2;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+    .avu{width:30px;height:30px;border-radius:50%;background:var(--user);color:white;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .bub{max-width:78%;padding:11px 15px;font-size:13.5px;line-height:1.7;color:var(--text);}
+    .bub.b{background:var(--light);border-radius:8px;}
+    .bub.u{background:var(--user);color:white;border-radius:8px;}
+    .typ{display:flex;align-items:center;gap:5px;padding:11px 15px;background:var(--light);border-radius:8px;width:fit-content;}
+    .td{width:5px;height:5px;background:var(--kite-blue);border-radius:50%;animation:bop 1.2s infinite;}
+    .td:nth-child(2){animation-delay:.2s}.td:nth-child(3){animation-delay:.4s}
+    @keyframes bop{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-4px)}}
+    .chips{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px;}
+    .chip{background:white;border:1.5px solid var(--kite-blue);color:var(--kite-blue);padding:8px 12px;border-radius:8px;font-size:12px;cursor:pointer;font-family:'Nunito Sans',sans-serif;font-weight:700;text-align:left;transition:all 0.15s;line-height:1.3;}
+    .chip:hover{background:var(--kite-blue);color:white;}
+    .slabel{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+    .discbox{background:#e8f0fb;border-left:3px solid var(--kite-blue);padding:9px 13px;margin-top:10px;font-size:12px;color:var(--muted);line-height:1.6;border-radius:0 8px 8px 0;}
+    .atclist{margin-top:10px;display:flex;flex-direction:column;gap:8px;}
+    .atcc{background:white;border:1px solid var(--border);border-left:3px solid var(--kite-blue);padding:10px 13px;border-radius:0 8px 8px 0;cursor:pointer;transition:box-shadow 0.15s;}
+    .atcc:hover{box-shadow:0 2px 8px rgba(26,58,107,0.08);}
+    .atcc strong{display:block;color:var(--navy);font-size:12.5px;font-weight:800;}
+    .atcc span{font-size:11.5px;color:var(--muted);}
+    .atcc .dist{color:var(--kite-blue);font-weight:700;font-size:11px;margin-top:2px;display:block;}
+    .mcta{display:inline-flex;align-items:center;gap:6px;margin-top:11px;background:var(--kite-blue);color:white;padding:9px 18px;border-radius:8px;font-size:12px;font-family:'Nunito Sans',sans-serif;cursor:pointer;border:none;font-weight:800;letter-spacing:0.04em;text-transform:uppercase;transition:background 0.15s;}
+    .mcta:hover{background:var(--navy);}
+    .irow{padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:center;background:white;flex-shrink:0;}
+    #inp{flex:1;padding:0 14px;height:40px;border:1.5px solid var(--border);border-radius:8px;font-size:13.5px;font-family:'Nunito Sans',sans-serif;outline:none;background:white;color:#1a2740;}
+    #inp::placeholder{color:#667;}
+    #inp:focus{border-color:var(--kite-blue);}
+    #sbtn{height:40px;padding:0 20px;background:var(--royal);border:none;border-radius:8px;cursor:pointer;font-family:'Nunito Sans',sans-serif;font-size:12px;font-weight:800;color:white;letter-spacing:0.07em;text-transform:uppercase;flex-shrink:0;transition:background 0.15s;}
+    #sbtn:hover{background:#1338c0;}
+    .foot{padding:7px 22px;font-size:10.5px;color:#667;text-align:center;background:white;border-top:1px solid var(--border);flex-shrink:0;line-height:1.5;}
+    .foot a{color:var(--kite-blue);text-decoration:underline;cursor:pointer;}
+  </style>
+</head>
+<body>
+ 
+<!-- LOGIN -->
+<div class="login-wrap" id="login">
+  <div class="login-hdr">
+    <!-- Full Kite wordmark — all letter paths white on navy, kite mark in original colors -->
+    <svg viewBox="0 0 140 58" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M104.652 22.5205H98.9028L91.9282 30.2648V22.5205H87.5425V42.0449H91.9282V33.1955L99.2377 42.0449H105.338L96.2649 31.6073L104.652 22.5205Z" fill="white"/>
+      <path d="M107.935 22.0375C107.614 22.0326 107.295 22.0956 106.999 22.2226C106.704 22.3495 106.438 22.5375 106.22 22.7743C105.764 23.2526 105.509 23.8889 105.509 24.5507C105.509 25.2125 105.764 25.8488 106.22 26.3271C106.441 26.5599 106.707 26.7453 107.002 26.8719C107.297 26.9986 107.615 27.0639 107.935 27.0639C108.256 27.0639 108.573 26.9986 108.868 26.8719C109.163 26.7453 109.429 26.5599 109.65 26.3271C110.107 25.8488 110.361 25.2125 110.361 24.5507C110.361 23.8889 110.107 23.2526 109.65 22.7743C109.432 22.5379 109.166 22.3502 108.871 22.2233C108.575 22.0964 108.257 22.0331 107.935 22.0375Z" fill="white"/>
+      <path d="M110.05 28.5457H105.828V42.0449H110.05V28.5457Z" fill="white"/>
+      <path d="M118.079 24.6408H113.857V28.5457H111.341V32.1067H113.857V38.2219C113.839 38.877 113.964 39.5281 114.224 40.1293C114.449 40.6407 114.8 41.086 115.245 41.4227C115.699 41.761 116.215 42.0058 116.764 42.1431C117.376 42.295 118.004 42.3692 118.634 42.3642C119.104 42.365 119.573 42.3377 120.039 42.2823C120.516 42.2248 120.985 42.1122 121.436 41.9467H121.534V38.0991L121.281 38.3365C121.081 38.4943 120.84 38.5884 120.586 38.6067C120.316 38.6447 120.043 38.6665 119.77 38.6721C119.446 38.6875 119.122 38.6316 118.822 38.5084C118.616 38.4215 118.444 38.2691 118.332 38.0745C118.211 37.8519 118.136 37.6068 118.112 37.3541C118.077 37.0306 118.061 36.7054 118.063 36.38V32.1149H121.517V28.5457H118.063L118.079 24.6408Z" fill="white"/>
+      <path d="M128.582 31.6646C128.929 31.5239 129.302 31.4543 129.676 31.46C129.982 31.45 130.286 31.5062 130.568 31.6249C130.85 31.7436 131.103 31.9219 131.31 32.1476C131.696 32.5543 131.915 33.0923 131.922 33.6539H127.022C127.055 33.406 127.12 33.1637 127.218 32.9335C127.339 32.654 127.514 32.4009 127.733 32.1886C127.975 31.9706 128.25 31.7937 128.549 31.6646M136.12 35.2993C136.134 34.3168 135.99 33.3385 135.695 32.4014C135.444 31.5934 135.043 30.8405 134.511 30.1829C133.985 29.5564 133.323 29.0581 132.576 28.7257C131.775 28.387 130.913 28.217 130.044 28.2264C129.085 28.2188 128.132 28.3881 127.234 28.7257C126.372 29.0468 125.585 29.5429 124.923 30.1829C124.268 30.8148 123.746 31.572 123.388 32.4096C122.636 34.2795 122.636 36.3683 123.388 38.2382C123.748 39.0772 124.27 39.8366 124.923 40.4731C125.588 41.0981 126.371 41.5825 127.226 41.8975C128.124 42.2352 129.077 42.4044 130.036 42.3969C131.09 42.3977 132.132 42.1598 133.082 41.701C134.048 41.2556 134.89 40.5779 135.532 39.7281L135.622 39.6135L132.633 37.3377L132.543 37.4605C132.237 37.8968 131.856 38.274 131.416 38.5739C130.895 38.8873 130.291 39.0333 129.685 38.9923C129.079 38.9513 128.5 38.7253 128.027 38.3447C127.554 37.9179 127.226 37.3542 127.087 36.732H136.153L136.12 35.2993Z" fill="white"/>
+      <path d="M141.371 22.3486H143.193V31.0016H143.356L152.862 22.3323H155.386L145.463 31.3372L155.933 41.9794H153.303L143.364 31.8202H143.193V42.0203H141.363L141.371 22.3486Z" fill="white"/>
+      <path d="M156.97 35.6023C156.959 34.6751 157.128 33.7547 157.468 32.8926C157.782 32.0936 158.255 31.3668 158.857 30.756C159.462 30.1471 160.188 29.6729 160.988 29.3643C161.855 29.0269 162.778 28.8574 163.708 28.8649C164.63 28.8576 165.545 29.0271 166.403 29.3643C167.204 29.6804 167.931 30.1583 168.539 30.7681C169.147 31.3779 169.624 32.1066 169.94 32.909C170.603 34.6541 170.603 36.5831 169.94 38.3283C169.609 39.1235 169.123 39.8444 168.51 40.4486C167.901 41.0583 167.173 41.535 166.371 41.8484C165.513 42.1896 164.598 42.3593 163.675 42.3478C162.745 42.3583 161.822 42.1887 160.956 41.8484C160.153 41.541 159.426 41.0635 158.824 40.4486C158.224 39.8363 157.752 39.1098 157.436 38.3119C157.106 37.4476 156.948 36.5272 156.97 35.6023ZM158.636 35.6023C158.616 34.9169 158.713 34.2331 158.922 33.5802C159.145 32.9713 159.49 32.4142 159.935 31.943C160.396 31.4574 160.952 31.0728 161.568 30.8133C162.234 30.5303 162.952 30.3909 163.675 30.4039C164.396 30.3901 165.111 30.5296 165.774 30.8133C166.391 31.0728 166.947 31.4574 167.408 31.943C167.855 32.4122 168.2 32.9698 168.42 33.5802C168.891 34.9039 168.891 36.3497 168.42 37.6734C168.199 38.2834 167.854 38.8409 167.408 39.3107C166.946 39.7936 166.39 40.1755 165.774 40.4322C165.112 40.7187 164.397 40.861 163.675 40.8497C162.952 40.8602 162.234 40.7179 161.568 40.4322C160.961 40.176 160.414 39.7952 159.963 39.3145C159.511 38.8337 159.165 38.2635 158.947 37.6406C158.715 36.9863 158.599 36.2965 158.604 35.6023H158.636Z" fill="white"/>
+      <path d="M173.827 29.1842H175.46C175.46 29.6672 175.46 30.1256 175.501 30.5758C175.497 30.8637 175.519 31.1514 175.567 31.4354H175.648C176.015 30.6901 176.58 30.0611 177.282 29.618C178.088 29.095 179.033 28.827 179.993 28.8485C180.835 28.8167 181.674 28.9791 182.443 29.3233C183.034 29.6041 183.545 30.0291 183.93 30.5595C184.296 31.0883 184.549 31.6876 184.673 32.3195C184.814 32.9981 184.885 33.6893 184.885 34.3825V42.0203H183.252V34.4643C183.252 33.9563 183.205 33.4494 183.113 32.9499C183.032 32.4852 182.869 32.0389 182.631 31.6319C182.378 31.2243 182.012 30.8999 181.577 30.6986C181.071 30.448 180.509 30.3297 179.944 30.3548C179.352 30.3522 178.765 30.4605 178.213 30.6741C177.674 30.8839 177.191 31.2143 176.8 31.6401C176.382 32.118 176.062 32.6746 175.861 33.2773C175.617 34.0248 175.501 34.808 175.518 35.594V42.0121H173.884L173.827 29.1842Z" fill="white"/>
+      <path d="M189.704 29.1842H191.337C191.337 29.6672 191.337 30.1256 191.378 30.5759C191.371 30.8642 191.395 31.1525 191.451 31.4354H191.533C191.9 30.6902 192.465 30.0612 193.167 29.6181C193.973 29.0942 194.918 28.826 195.878 28.8486C196.72 28.8176 197.558 28.98 198.328 29.3234C198.917 29.6044 199.425 30.0295 199.806 30.5595C200.175 31.0878 200.431 31.6871 200.558 32.3196C200.696 32.9984 200.764 33.6897 200.762 34.3825V42.0203H199.128V34.4644C199.128 33.9564 199.082 33.4494 198.99 32.9499C198.906 32.4848 198.74 32.0384 198.5 31.6319C198.268 31.2392 197.935 30.9167 197.536 30.6987C197.029 30.4481 196.467 30.3298 195.902 30.3549C195.31 30.3515 194.723 30.4598 194.171 30.6741C193.632 30.8822 193.148 31.2128 192.758 31.6401C192.337 32.116 192.017 32.6731 191.819 33.2774C191.569 34.0234 191.45 34.8073 191.468 35.5941V42.0122H189.834L189.704 29.1842Z" fill="white"/>
+      <path d="M216.279 39.6054C215.699 40.5247 214.865 41.2555 213.878 41.7092C212.887 42.1433 211.815 42.361 210.734 42.3478C209.822 42.3617 208.916 42.1918 208.071 41.8484C207.296 41.5336 206.597 41.0563 206.021 40.4485C205.441 39.8347 204.993 39.1073 204.706 38.3119C204.393 37.4321 204.239 36.5036 204.249 35.5695C204.238 34.6607 204.399 33.758 204.723 32.909C205.165 31.6943 205.973 30.6476 207.036 29.9142C208.098 29.1808 209.362 28.7969 210.652 28.8158C211.542 28.7971 212.426 28.9731 213.241 29.3315C213.957 29.6485 214.599 30.1112 215.128 30.6905C215.634 31.2587 216.025 31.9205 216.279 32.6388C216.544 33.346 216.685 34.0938 216.696 34.8491V36.0198H205.915C205.928 36.4739 205.997 36.9248 206.119 37.3623C206.279 37.9767 206.56 38.5527 206.946 39.0561C207.331 39.5595 207.814 39.9802 208.365 40.293C209.097 40.6938 209.925 40.8863 210.758 40.8497C211.611 40.8416 212.45 40.6341 213.208 40.2439C213.956 39.8794 214.587 39.3122 215.03 38.6066L216.279 39.6054ZM205.931 34.5217H215.005C214.972 34.2022 214.898 33.8885 214.784 33.5884C214.613 33.0849 214.362 32.6123 214.041 32.1886C213.657 31.6661 213.177 31.2216 212.628 30.8788C211.939 30.4899 211.156 30.3001 210.366 30.3303C209.773 30.3265 209.185 30.4377 208.634 30.6577C208.109 30.8662 207.629 31.1748 207.221 31.5664C206.825 31.9401 206.506 32.3878 206.282 32.8844C206.041 33.3959 205.921 33.9561 205.931 34.5217Z" fill="white"/>
+      <path d="M231.519 40.1293C230.946 40.8453 230.217 41.4195 229.387 41.8075C228.576 42.1712 227.696 42.3555 226.807 42.3478C225.879 42.3591 224.958 42.1895 224.095 41.8484C223.291 41.5391 222.562 41.0619 221.955 40.4485C221.358 39.8358 220.888 39.1093 220.575 38.3119C219.911 36.5668 219.911 34.6377 220.575 32.8926C220.886 32.0941 221.356 31.3672 221.955 30.7559C222.565 30.1488 223.293 29.6749 224.095 29.3643C224.959 29.0279 225.879 28.8585 226.807 28.8649C227.714 28.856 228.611 29.0577 229.428 29.4543C230.245 29.8522 230.975 30.4087 231.576 31.0916L230.245 32.0903C229.799 31.5789 229.265 31.1519 228.669 30.8296C228.096 30.522 227.456 30.3644 226.807 30.3712C226.083 30.3581 225.365 30.4976 224.699 30.7805C224.083 31.0392 223.526 31.4239 223.066 31.9102C222.618 32.3794 222.274 32.9371 222.053 33.5475C221.583 34.8711 221.583 36.317 222.053 37.6406C222.274 38.2506 222.619 38.8081 223.066 39.2779C223.527 39.7618 224.083 40.1438 224.699 40.3994C225.365 40.6851 226.083 40.8274 226.807 40.8169C227.48 40.8234 228.143 40.6571 228.734 40.3339C229.318 40.007 229.831 39.5674 230.245 39.0405L231.519 40.1293Z" fill="white"/>
+      <path d="M242.601 30.6823H238.943V39.0487C238.929 39.2915 238.964 39.5345 239.046 39.7636C239.127 39.9927 239.253 40.2033 239.416 40.3831C239.592 40.5442 239.798 40.6684 240.023 40.7485C240.247 40.8287 240.485 40.8631 240.723 40.8497C241.045 40.8481 241.366 40.8069 241.678 40.7269C241.994 40.6464 242.303 40.5396 242.601 40.4076L242.74 41.9057C242.387 42.03 242.027 42.1338 241.662 42.2168C241.309 42.2991 240.947 42.343 240.584 42.3478C240.063 42.3636 239.543 42.2746 239.057 42.0858C238.665 41.9366 238.315 41.6951 238.036 41.3818C237.772 41.0783 237.577 40.7207 237.464 40.334C237.34 39.9171 237.279 39.4838 237.285 39.0487V30.6823H234.508V29.1842H237.285V25.4922H238.918V29.1842H242.577L242.601 30.6823Z" fill="white"/>
+      <!-- Kite mark — original brand colors -->
+      <path d="M91.8466 1.43262L33.8607 43.9359C33.8492 43.9481 33.8428 43.9642 33.8428 43.981C33.8428 43.9977 33.8492 44.0138 33.8607 44.026C33.8728 44.0375 33.8889 44.0439 33.9056 44.0439C33.9223 44.0439 33.9384 44.0375 33.9505 44.026L34.1302 43.9687C38.7485 42.5403 43.5777 41.92 48.4061 42.1349C52.0614 42.2835 55.6379 43.2454 58.8763 44.951C62.5654 47.0197 65.4963 50.2187 67.2393 54.0788C67.2492 54.0845 67.2605 54.0876 67.272 54.0876C67.2834 54.0876 67.2947 54.0845 67.3046 54.0788C67.3178 54.0838 67.3323 54.0838 67.3455 54.0788L91.9609 1.53085C91.9638 1.51606 91.9625 1.50075 91.9573 1.48663C91.9521 1.4725 91.943 1.46009 91.9312 1.45078C91.9194 1.44147 91.9052 1.43561 91.8903 1.43385C91.8754 1.43209 91.8602 1.43449 91.8466 1.4408" fill="#265DB2"/>
+      <path d="M90.156 0.00816072L4.70436 17.707C4.68487 17.707 4.66617 17.7147 4.65239 17.7285C4.6386 17.7424 4.63086 17.7611 4.63086 17.7806C4.63086 17.8002 4.6386 17.8189 4.65239 17.8327C4.66617 17.8466 4.68487 17.8543 4.70436 17.8543H4.8922C9.66172 18.6431 14.2594 20.2522 18.4821 22.6106C21.6854 24.3787 24.4557 26.8395 26.592 29.8145C28.9841 33.3065 30.195 37.4759 30.0467 41.7092C30.0476 41.7227 30.0518 41.7357 30.0589 41.7471C30.066 41.7585 30.0758 41.768 30.0875 41.7747H30.1365L90.205 0.130955C90.2104 0.12562 90.2147 0.119252 90.2177 0.112223C90.2206 0.105195 90.2221 0.0976474 90.2221 0.0900237C90.2221 0.0824 90.2206 0.0748531 90.2177 0.0678247C90.2147 0.0607963 90.2104 0.0544279 90.205 0.0490924C90.1995 0.034689 90.1891 0.0226869 90.1757 0.0151996C90.1622 0.0077123 90.1466 0.00521977 90.1315 0.00816072" fill="#64B4E1"/>
+      <path d="M30.169 41.6438C30.284 37.4089 29.0418 33.2487 26.6245 29.7736C24.486 26.8007 21.7161 24.3403 18.5146 22.5697C14.2909 20.2151 9.69344 18.6088 4.92467 17.8216C4.80217 17.8216 4.696 17.707 4.70417 17.6906L0.0571257 18.6157C0.0480226 18.6153 0.0389601 18.6171 0.0306932 18.6209C0.0224264 18.6248 0.0151948 18.6305 0.00960107 18.6377C0.00400738 18.6449 0.00021371 18.6534 -0.00146392 18.6624C-0.00314155 18.6713 -0.00265447 18.6806 -4.32655e-05 18.6893C-0.000168714 18.7054 0.00558256 18.7209 0.0161202 18.733C0.0266578 18.7451 0.0412488 18.7528 0.0571257 18.7548H0.244967C5.62609 19.9794 10.8238 21.906 15.7052 24.4853C18.9849 26.1876 21.8383 28.6111 24.0519 31.5746C26.4203 35.0047 26.502 39.8264 26.4121 44.2879C26.4111 44.3018 26.4145 44.3156 26.4219 44.3274C26.4292 44.3391 26.4401 44.3483 26.453 44.3534C26.4613 44.3594 26.4713 44.3626 26.4815 44.3626C26.4918 44.3626 26.5018 44.3594 26.5101 44.3534L30.1526 41.7993L30.169 41.6438Z" fill="#AF2841"/>
+      <path d="M67.3127 53.9232C65.5183 50.1022 62.5619 46.9496 58.868 44.9183C55.5795 43.2085 51.9531 42.2523 48.2509 42.1186C43.4453 41.8986 38.6384 42.5248 34.0484 43.9687C33.9259 43.9687 33.8769 43.9687 33.8769 43.9687C33.8769 43.9687 33.7953 43.9687 33.8034 43.9195L29.2136 47.1941C29.2036 47.207 29.1982 47.2228 29.1982 47.2391C29.1982 47.2554 29.2036 47.2712 29.2136 47.2841C29.2264 47.2941 29.2422 47.2995 29.2585 47.2995C29.2747 47.2995 29.2905 47.2941 29.3034 47.2841L29.4831 47.2268C35.0987 45.8758 40.8591 45.2242 46.6338 45.2867C50.2062 45.35 53.7022 46.3339 56.7854 48.1437C60.5726 50.5001 63.5902 53.9146 65.467 57.9673C65.4769 57.973 65.4882 57.976 65.4997 57.976C65.5111 57.976 65.5224 57.973 65.5323 57.9673L67.3046 54.0788C67.3116 54.0272 67.3143 53.9752 67.3127 53.9232Z" fill="#AF2841"/>
+      <!-- ® mark -->
+      <path d="M246.097 25.484C246.355 25.4823 246.611 25.5324 246.849 25.6313C247.087 25.7296 247.301 25.8775 247.477 26.0652C247.649 26.2419 247.785 26.4504 247.878 26.6792C247.976 26.9092 248.026 27.1573 248.025 27.4078C248.026 27.6635 247.976 27.9169 247.878 28.1527C247.784 28.3845 247.642 28.5937 247.461 28.7667C247.279 28.9497 247.063 29.0944 246.824 29.1924C246.595 29.2953 246.348 29.3536 246.097 29.3643C245.847 29.3652 245.6 29.3151 245.37 29.2169C245.135 29.1178 244.921 28.9732 244.742 28.7913C244.566 28.6109 244.425 28.4001 244.325 28.1691C244.23 27.9381 244.183 27.6903 244.186 27.4405C244.186 27.1876 244.236 26.9371 244.333 26.7038C244.431 26.4647 244.575 26.2476 244.758 26.0652C244.932 25.8877 245.14 25.7483 245.37 25.6559C245.599 25.5514 245.846 25.493 246.097 25.484ZM245.281 26.2944H246.097C246.332 26.2793 246.567 26.3304 246.775 26.4418C246.994 26.7029 247.014 26.7888 247.012 26.8757C247.017 27.0181 246.97 27.1574 246.881 27.2686C246.794 27.3782 246.668 27.4512 246.53 27.4733L247.012 28.4474H246.489L246.065 27.5469H245.73V28.4474H245.281V26.2944ZM245.738 26.5891V27.2604H246.097C246.229 27.2698 246.362 27.2444 246.481 27.1867C246.595 26.933 246.568 26.7859 246.473 26.671C246.353 26.6062 246.217 26.5777 246.081 26.5891H245.738Z" fill="white"/>
+    </svg>
+    <div class="login-hdr-title">Treatment Center Assistant</div>
+  </div>
+  <div class="login-grad"></div>
+  <div class="login-body">
+    <h2>Sign in to continue</h2>
+    <p>This prototype is for internal review only. Enter your credentials to access the Treatment Center Assistant.</p>
+    <div class="login-field">
+      <label>Username</label>
+      <input type="text" id="lemail" placeholder="Enter username"/>
+    </div>
+    <div class="login-field">
+      <label>Password</label>
+      <input type="password" id="lpass" placeholder="Enter password"/>
+    </div>
+    <button class="login-btn" onclick="doLogin()">Sign In</button>
+    <div class="login-error" id="lerr">Incorrect username or password. Please try again.</div>
+  </div>
+  <div class="login-footer">For access, contact your Kite account team · <a href="https://www.kitepharma.com">kitepharma.com</a></div>
+</div>
+ 
+<!-- CHATBOT -->
+<div class="wrap" id="chatbot">
+  <div class="hdr">
+    <!-- Same full wordmark in header -->
+    <svg class="hdr-logo" viewBox="0 0 140 58" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M104.652 22.5205H98.9028L91.9282 30.2648V22.5205H87.5425V42.0449H91.9282V33.1955L99.2377 42.0449H105.338L96.2649 31.6073L104.652 22.5205Z" fill="white"/>
+      <path d="M107.935 22.0375C107.614 22.0326 107.295 22.0956 106.999 22.2226C106.704 22.3495 106.438 22.5375 106.22 22.7743C105.764 23.2526 105.509 23.8889 105.509 24.5507C105.509 25.2125 105.764 25.8488 106.22 26.3271C106.441 26.5599 106.707 26.7453 107.002 26.8719C107.297 26.9986 107.615 27.0639 107.935 27.0639C108.256 27.0639 108.573 26.9986 108.868 26.8719C109.163 26.7453 109.429 26.5599 109.65 26.3271C110.107 25.8488 110.361 25.2125 110.361 24.5507C110.361 23.8889 110.107 23.2526 109.65 22.7743C109.432 22.5379 109.166 22.3502 108.871 22.2233C108.575 22.0964 108.257 22.0331 107.935 22.0375Z" fill="white"/>
+      <path d="M110.05 28.5457H105.828V42.0449H110.05V28.5457Z" fill="white"/>
+      <path d="M118.079 24.6408H113.857V28.5457H111.341V32.1067H113.857V38.2219C113.839 38.877 113.964 39.5281 114.224 40.1293C114.449 40.6407 114.8 41.086 115.245 41.4227C115.699 41.761 116.215 42.0058 116.764 42.1431C117.376 42.295 118.004 42.3692 118.634 42.3642C119.104 42.365 119.573 42.3377 120.039 42.2823C120.516 42.2248 120.985 42.1122 121.436 41.9467H121.534V38.0991L121.281 38.3365C121.081 38.4943 120.84 38.5884 120.586 38.6067C120.316 38.6447 120.043 38.6665 119.77 38.6721C119.446 38.6875 119.122 38.6316 118.822 38.5084C118.616 38.4215 118.444 38.2691 118.332 38.0745C118.211 37.8519 118.136 37.6068 118.112 37.3541C118.077 37.0306 118.061 36.7054 118.063 36.38V32.1149H121.517V28.5457H118.063L118.079 24.6408Z" fill="white"/>
+      <path d="M128.582 31.6646C128.929 31.5239 129.302 31.4543 129.676 31.46C129.982 31.45 130.286 31.5062 130.568 31.6249C130.85 31.7436 131.103 31.9219 131.31 32.1476C131.696 32.5543 131.915 33.0923 131.922 33.6539H127.022C127.055 33.406 127.12 33.1637 127.218 32.9335C127.339 32.654 127.514 32.4009 127.733 32.1886C127.975 31.9706 128.25 31.7937 128.549 31.6646M136.12 35.2993C136.134 34.3168 135.99 33.3385 135.695 32.4014C135.444 31.5934 135.043 30.8405 134.511 30.1829C133.985 29.5564 133.323 29.0581 132.576 28.7257C131.775 28.387 130.913 28.217 130.044 28.2264C129.085 28.2188 128.132 28.3881 127.234 28.7257C126.372 29.0468 125.585 29.5429 124.923 30.1829C124.268 30.8148 123.746 31.572 123.388 32.4096C122.636 34.2795 122.636 36.3683 123.388 38.2382C123.748 39.0772 124.27 39.8366 124.923 40.4731C125.588 41.0981 126.371 41.5825 127.226 41.8975C128.124 42.2352 129.077 42.4044 130.036 42.3969C131.09 42.3977 132.132 42.1598 133.082 41.701C134.048 41.2556 134.89 40.5779 135.532 39.7281L135.622 39.6135L132.633 37.3377L132.543 37.4605C132.237 37.8968 131.856 38.274 131.416 38.5739C130.895 38.8873 130.291 39.0333 129.685 38.9923C129.079 38.9513 128.5 38.7253 128.027 38.3447C127.554 37.9179 127.226 37.3542 127.087 36.732H136.153L136.12 35.2993Z" fill="white"/>
+      <path d="M141.371 22.3486H143.193V31.0016H143.356L152.862 22.3323H155.386L145.463 31.3372L155.933 41.9794H153.303L143.364 31.8202H143.193V42.0203H141.363L141.371 22.3486Z" fill="white"/>
+      <path d="M173.827 29.1842H175.46C175.46 29.6672 175.46 30.1256 175.501 30.5758C175.497 30.8637 175.519 31.1514 175.567 31.4354H175.648C176.015 30.6901 176.58 30.0611 177.282 29.618C178.088 29.095 179.033 28.827 179.993 28.8485C180.835 28.8167 181.674 28.9791 182.443 29.3233C183.034 29.6041 183.545 30.0291 183.93 30.5595C184.296 31.0883 184.549 31.6876 184.673 32.3195C184.814 32.9981 184.885 33.6893 184.885 34.3825V42.0203H183.252V34.4643C183.252 33.9563 183.205 33.4494 183.113 32.9499C183.032 32.4852 182.869 32.0389 182.631 31.6319C182.378 31.2243 182.012 30.8999 181.577 30.6986C181.071 30.448 180.509 30.3297 179.944 30.3548C179.352 30.3522 178.765 30.4605 178.213 30.6741C177.674 30.8839 177.191 31.2143 176.8 31.6401C176.382 32.118 176.062 32.6746 175.861 33.2773C175.617 34.0248 175.501 34.808 175.518 35.594V42.0121H173.884L173.827 29.1842Z" fill="white"/>
+      <path d="M189.704 29.1842H191.337C191.337 29.6672 191.337 30.1256 191.378 30.5759C191.371 30.8642 191.395 31.1525 191.451 31.4354H191.533C191.9 30.6902 192.465 30.0612 193.167 29.6181C193.973 29.0942 194.918 28.826 195.878 28.8486C196.72 28.8176 197.558 28.98 198.328 29.3234C198.917 29.6044 199.425 30.0295 199.806 30.5595C200.175 31.0878 200.431 31.6871 200.558 32.3196C200.696 32.9984 200.764 33.6897 200.762 34.3825V42.0203H199.128V34.4644C199.128 33.9564 199.082 33.4494 198.99 32.9499C198.906 32.4848 198.74 32.0384 198.5 31.6319C198.268 31.2392 197.935 30.9167 197.536 30.6987C197.029 30.4481 196.467 30.3298 195.902 30.3549C195.31 30.3515 194.723 30.4598 194.171 30.6741C193.632 30.8822 193.148 31.2128 192.758 31.6401C192.337 32.116 192.017 32.6731 191.819 33.2774C191.569 34.0234 191.45 34.8073 191.468 35.5941V42.0122H189.834L189.704 29.1842Z" fill="white"/>
+      <path d="M216.279 39.6054C215.699 40.5247 214.865 41.2555 213.878 41.7092C212.887 42.1433 211.815 42.361 210.734 42.3478C209.822 42.3617 208.916 42.1918 208.071 41.8484C207.296 41.5336 206.597 41.0563 206.021 40.4485C205.441 39.8347 204.993 39.1073 204.706 38.3119C204.393 37.4321 204.239 36.5036 204.249 35.5695C204.238 34.6607 204.399 33.758 204.723 32.909C205.973 30.6476 207.036 29.9142 210.652 28.8158C213.241 29.3315 215.128 30.6905 216.279 32.6388C216.544 33.346 216.696 34.8491V36.0198H205.915C205.997 36.9248 206.119 37.3623 206.946 39.0561C207.814 39.9802 208.365 40.293C209.925 40.8863 210.758 40.8497C213.208 40.2439 215.03 38.6066L216.279 39.6054Z" fill="white"/>
+      <path d="M231.519 40.1293C230.217 41.4195 228.576 42.1712 226.807 42.3478C224.958 42.1895 223.291 41.5391 221.955 40.4485C219.911 36.5668 219.911 34.6377 220.575 32.8926C222.565 30.1488 224.095 29.3643 226.807 28.8649C228.611 29.0577 230.245 29.8522 231.576 31.0916L230.245 32.0903C228.096 30.522 226.083 30.3581 224.699 30.7805C222.053 33.5475 221.583 36.317 222.053 37.6406C224.699 40.3994 226.807 40.8169 228.734 40.3339C229.831 39.5674 230.245 39.0405L231.519 40.1293Z" fill="white"/>
+      <path d="M242.601 30.6823H238.943V39.0487C238.964 39.5345 239.253 40.2033 239.416 40.3831C239.798 40.6684 240.485 40.8631 240.723 40.8497C241.366 40.8069 242.303 40.5396 242.601 40.4076L242.74 41.9057C241.309 42.2991 240.063 42.3636 239.057 42.0858C237.772 41.0783 237.285 39.0487V30.6823H234.508V29.1842H237.285V25.4922H238.918V29.1842H242.577L242.601 30.6823Z" fill="white"/>
+      <path d="M91.8466 1.43262L33.8607 43.9359C33.8428 43.981C33.9056 44.0439C33.9505 44.026L34.1302 43.9687C38.7485 42.5403 43.5777 41.92 48.4061 42.1349C52.0614 42.2835 55.6379 43.2454 58.8763 44.951C62.5654 47.0197 65.4963 50.2187 67.2393 54.0788C67.3046 54.0788 67.3455 54.0788L91.9609 1.53085C91.8466 1.4408" fill="#265DB2"/>
+      <path d="M90.156 0.00816072L4.70436 17.707H4.8922C9.66172 18.6431 14.2594 20.2522 18.4821 22.6106C21.6854 24.3787 24.4557 26.8395 26.592 29.8145C28.9841 33.3065 30.195 37.4759 30.0467 41.7092H30.1365L90.205 0.130955C90.1315 0.00816072" fill="#64B4E1"/>
+      <path d="M30.169 41.6438C30.284 37.4089 29.0418 33.2487 26.6245 29.7736C24.486 26.8007 21.7161 24.3403 18.5146 22.5697C14.2909 20.2151 9.69344 18.6088 4.92467 17.8216L0.0571257 18.6157H0.244967C5.62609 19.9794 10.8238 21.906 15.7052 24.4853C18.9849 26.1876 21.8383 28.6111 24.0519 31.5746C26.4203 35.0047 26.502 39.8264 26.4121 44.2879L30.1526 41.7993L30.169 41.6438Z" fill="#AF2841"/>
+      <path d="M67.3127 53.9232C65.5183 50.1022 62.5619 46.9496 58.868 44.9183C55.5795 43.2085 51.9531 42.2523 48.2509 42.1186C43.4453 41.8986 38.6384 42.5248 34.0484 43.9687L29.2136 47.1941L29.4831 47.2268C35.0987 45.8758 40.8591 45.2242 46.6338 45.2867C50.2062 45.35 53.7022 46.3339 56.7854 48.1437C60.5726 50.5001 63.5902 53.9146 65.467 57.9673L67.3046 54.0788L67.3127 53.9232Z" fill="#AF2841"/>
+      <path d="M246.097 25.484C247.477 26.0652 248.025 27.4078C247.461 28.7667C246.097 29.3643C244.742 28.7913C244.186 27.4405C244.758 26.0652C246.097 25.484ZM245.281 26.2944H246.097C246.775 26.4418 247.012 26.8757C246.881 27.2686C246.53 27.4733L247.012 28.4474H246.489L246.065 27.5469H245.73V28.4474H245.281V26.2944ZM245.738 26.5891V27.2604H246.097C246.481 27.1867C246.595 26.933C246.353 26.6062 246.081 26.5891H245.738Z" fill="white"/>
+    </svg>
+    <div class="hdr-div"></div>
+    <div class="hdr-title">Treatment Center Assistant</div>
+    <button class="hdr-signout" onclick="signOut()">Sign Out</button>
+  </div>
+  <div class="grad"></div>
+  <div class="secbar">Authorized Treatment Centers · Patient Support</div>
+  <div class="msgs" id="msgs"></div>
+  <div class="irow">
+    <input type="text" id="inp" placeholder="Ask about treatment centers, CAR T therapy, financial support…"/>
+    <button id="sbtn" onclick="send()">Send</button>
+  </div>
+  <div class="foot">
+    ATCs are independent facilities. Choice of ATC is within the sole discretion of the physician and patient. Kite does not endorse any individual treatment sites. ·
+    <a onclick="window.open('https://www.kitepharma.com/patient-resources/find-a-treatment-center','_blank')">Find a Treatment Center</a>
+  </div>
+</div>
+ 
+<script>
+const USERS=[
+  {email:'kite',password:'2026'},
+  {email:'kiteadmin',password:'2026'}
+];
+function doLogin(){
+  const email=document.getElementById('lemail').value.trim().toLowerCase();
+  const pass=document.getElementById('lpass').value;
+  if(USERS.find(u=>u.email===email&&u.password===pass)){
+    document.getElementById('login').style.display='none';
+    document.getElementById('chatbot').classList.add('visible');
+    initChat();
+  } else {
+    document.getElementById('lerr').style.display='block';
+  }
+}
+function signOut(){
+  document.getElementById('chatbot').classList.remove('visible');
+  document.getElementById('login').style.display='block';
+  document.getElementById('lpass').value='';
+  document.getElementById('lerr').style.display='none';
+  document.getElementById('msgs').innerHTML='';
+  chatInited=false;
+}
+['lemail','lpass'].forEach(id=>{document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});});
+ 
+let chatInited=false;
+function initChat(){
+  if(chatInited)return;chatInited=true;
+  bot(`Hello, and welcome to Kite's Treatment Center Assistant. I'm here to help you find an Authorized Treatment Center for CAR T-cell therapy, or answer questions about the treatment process and support resources.`);
+  addChips();
+}
+ 
+function av(){const e=document.createElement('div');e.className='avb';e.innerHTML=`<svg width="20" height="22" viewBox="0 0 92 58" fill="none"><path d="M91 1L34 44L58 45C65 47 67 54 67 54L92 1Z" fill="white"/><path d="M90 0L5 18C10 19 18 23 24 27C29 33 30 42 30 42L90 0Z" fill="rgba(255,255,255,0.8)"/><path d="M30 42C29 33 18 23 5 18L0 19C6 20 16 24 20 28C24 32 26 40 26 44L30 42Z" fill="rgba(255,180,180,0.9)"/><path d="M67 54C63 47 48 42 34 44L29 47C41 45 57 48 64 58Z" fill="rgba(255,180,180,0.9)"/></svg>`;return e;}
+ 
+const CHIPS=`<div class="slabel">Common questions</div><div class="chips"><button class="chip" onclick="chip('Find a treatment center near me')">Find a center near me</button><button class="chip" onclick="chip('Can I choose which ATC is right for me?')">Choosing an ATC</button><button class="chip" onclick="chip('What is CAR T-cell therapy?')">What is CAR T?</button><button class="chip" onclick="chip('What financial assistance is available?')">Financial assistance</button><button class="chip" onclick="chip('What are the side effects?')">Side effects</button><button class="chip" onclick="chip('How long is the treatment process?')">Treatment timeline</button></div>`;
+ 
+const ATCS=[{n:'Medical University of South Carolina',c:'Charleston, SC',d:'97.7 mi · 2 hrs 4 min'},{n:'Roper St. Francis Healthcare',c:'Charleston, SC',d:'97.9 mi · 2 hrs 5 min'},{n:'Novant Health Presbyterian Medical Center',c:'Charlotte, NC',d:'173.9 mi · 3 hrs 34 min'},{n:'Levine Cancer Institute',c:'Charlotte, NC',d:'174.2 mi · 3 hrs 36 min'}];
+ 
+const DEMO=[
+  {m:['find','near','atc','center','location','where','zip'],t:'loc',r:`Kite has more than 570 Authorized Treatment Centers (ATCs) globally, including more than 160 across the U.S. I just need your ZIP code or city and state to show you the nearest centers.`},
+  {m:['choose','right','pick','select','best','decide'],t:'choose',r:`Choice of an ATC is within the sole discretion of the physician and patient. Kite does not endorse any individual treatment sites.<br><br>When choosing, it is recommended for patients to stay within 2 hours of the ATC for at least 2 weeks after receiving CAR T-cell therapy.`},
+  {m:['car t','cart','what is','therapy','how does','work','explain'],t:'txt',r:`CAR T-cell therapy is a one-time, personalized treatment that uses your own immune system to fight cancer.<br><br>1. <strong>Leukapheresis</strong> — white blood cells are collected from you.<br>2. <strong>Manufacturing</strong> — cells are engineered at Kite's facility (~3–4 weeks).<br>3. <strong>Lymphodepletion</strong> — a short course of chemotherapy prepares your body.<br>4. <strong>Infusion</strong> — your engineered CAR T cells are infused back in a single session.<br>5. <strong>Monitoring</strong> — you stay near the ATC for at least 2 weeks.<br><br>Kite's products include <strong>Yescarta®</strong> and <strong>Tecartus®</strong>.`},
+  {m:['side effect','risk','crs','cytokine','icans','safe'],t:'txt',r:`Two key side effects are closely monitored at ATCs:<br><br><strong>CRS</strong> — fever, low blood pressure, difficulty breathing. Manageable; typically occurs in weeks 1–2.<br><br><strong>ICANS</strong> — confusion, difficulty speaking, or tremors. Your ATC care team is trained to treat these quickly.`},
+  {m:['financial','cost','pay','insurance','afford','konnect','support','money'],t:'txt',r:`<strong>Kite Konnect</strong> is Kite's dedicated patient support program:<br><br>— Insurance verification and prior authorization<br>— Financial assistance for eligible patients<br>— Care coordination and logistics support<br><br>Call <strong>1-844-454-KITE (5483)</strong> or ask your care team to connect you directly.`},
+  {m:['how long','timeline','time','process','weeks','days','schedule'],t:'txt',r:`The CAR T journey typically spans several weeks:<br><br>— <strong>Cell collection:</strong> 1 day<br>— <strong>Manufacturing:</strong> ~3–4 weeks<br>— <strong>Lymphodepletion chemo:</strong> 3 days before infusion<br>— <strong>CAR T infusion:</strong> 1 day<br>— <strong>Post-infusion monitoring:</strong> at least 2 weeks`},
+  {m:['hello','hi','hey','help','start','greetings'],t:'greet',r:null}
+];
+ 
+function locResult(z){const label=z||'your location';const cards=ATCS.map(a=>`<div class="atcc" onclick="window.open('https://www.kitepharma.com/patient-resources/find-a-treatment-center','_blank')"><strong>${a.n}</strong><span>${a.c}</span><span class="dist">${a.d}</span></div>`).join('');return `Here are Authorized Treatment Centers closest to <strong>${label}</strong>:<div class="atclist">${cards}</div><div class="discbox">ATCs are independent facilities. Choice of ATC is within the sole discretion of the physician and patient. Kite does not endorse any individual treatment sites. It is recommended for patients to stay within 2 hours of the ATC for at least 2 weeks after receiving CAR T-cell therapy.</div><button class="mcta" onclick="window.open('https://www.kitepharma.com/patient-resources/find-a-treatment-center','_blank')">View All Centers on Kite.com</button>`;}
+ 
+function addChips(){const m=document.getElementById('msgs');const r=document.createElement('div');r.style.cssText='padding:0 0 4px 44px;';r.innerHTML=CHIPS;m.appendChild(r);m.scrollTop=m.scrollHeight;}
+function bot(h){const m=document.getElementById('msgs');const r=document.createElement('div');r.className='row';r.appendChild(av());const b=document.createElement('div');b.className='bub b';b.innerHTML=h;r.appendChild(b);m.appendChild(r);m.scrollTop=m.scrollHeight;}
+function usr(h){const m=document.getElementById('msgs');const r=document.createElement('div');r.className='row u';const a=document.createElement('div');a.className='avu';a.textContent='You';const b=document.createElement('div');b.className='bub u';b.innerHTML=h;r.appendChild(b);r.appendChild(a);m.appendChild(r);m.scrollTop=m.scrollHeight;}
+function showTyp(){const m=document.getElementById('msgs');const r=document.createElement('div');r.className='row';r.id='tr';r.appendChild(av());const i=document.createElement('div');i.className='typ';i.innerHTML='<div class="td"></div><div class="td"></div><div class="td"></div>';r.appendChild(i);m.appendChild(r);m.scrollTop=m.scrollHeight;}
+function rmTyp(){const t=document.getElementById('tr');if(t)t.remove();}
+function chip(t){document.getElementById('inp').value=t;send();}
+function esc(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+ 
+let zipMode=false;
+function send(){
+  const inp=document.getElementById('inp');const txt=inp.value.trim();if(!txt)return;
+  inp.value='';usr(esc(txt));showTyp();
+  setTimeout(()=>{
+    rmTyp();const lo=txt.toLowerCase();const z=txt.match(/\d{5}/)?.[0];
+    if(zipMode&&(z||txt.length<50)){zipMode=false;bot(locResult(z||txt));return;}
+    for(const item of DEMO){
+      if(item.m.some(k=>lo.includes(k))){
+        if(item.t==='greet'){bot(`Hi there! I'm Kite's Treatment Center Assistant. I can help you find an Authorized Treatment Center near you, or answer questions about CAR T-cell therapy.`);}
+        else if(item.t==='loc'){zipMode=true;bot(item.r);}
+        else if(item.t==='choose'){bot(item.r+`<div class="discbox" style="margin-top:10px;">ATCs are independent facilities certified to dispense Kite CAR T therapies. Choice of ATC is within the sole discretion of the physician and patient.</div>`);}
+        else{bot(item.r);}
+        return;
+      }
+    }
+    bot(`I'm not sure I have the right answer for that. Here are some things I can help with: finding a treatment center, CAR T-cell therapy, financial assistance, side effects, or treatment timelines.`);
+  },900);
+}
+document.getElementById('inp').addEventListener('keydown',e=>{if(e.key==='Enter')send();});
+</script>
+</body>
+</html>
